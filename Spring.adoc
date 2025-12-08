@@ -1,0 +1,126 @@
+=  A Long Spring: 19 Years of Living with Your Past Mistakes by Arjen Poutsma
+
+https://www.youtube.com/watch?v=0OtngsVzOno
+
+https://poutsma-principles.com/
+
+Talk "With Anecdotes and Dancing"
+
+Talk about sharing experiences
+
+Arjen Poutsma
+- 30 xp in Enterprise Software Development
+- Worked on Spring from 2005-2024
+- Development lead of Spring Web Services, Spring MVC, Spring Scala
+- Conceptor of @Controller
+
+
+Empathy: Consider user perspective - backward compatibility
+
+Humility: admit mistakes, keep learning
+
+Restraint: improve carefully, not endlessly "when in doubt leave it out" J. Bloch
+
+
+== Empathy : Consider user perspective - backward compatibility
+
+A project can depend on a dependency which depend on a dependency ... depending on Spring Core (transitive dependency).
+
+Having a security issue on the core needs a replacement. **Binary compatibility is needed**
+
+== Humility: admit mistakes, keep learning
+
+The only feedback from the community is when it does not work.
+Because, when people are happy, no issue are filed.
+
+Conferences are a good place to see happily user using our stuff.
+
+Spring Scala project: tried to enter Scala market - 10 years ago - seems promising.
+Scala people likes Scala libraries not running on JVM. Very coupling layers between Scala and JVM.
+Spring Scala project, tried it, did not work showed Humility.
+
+== Restraint: improve carefully, not endlessly "when in doubt leave it out" J. Bloch
+
+You can add to your framework, to your library, but you cannot remove. Avoid breaking codes. Avoid breaking **Empathy** Always consider user's perspective. Users just want to upgrade and not use new feature.
+
+=== Samples
+
+==== Web controllers
+
+===== From XML to Annotations :)
+
+Changes consequences, by using annotations: Empathy User perspective
+- Configuration in controller
+- Convention over configuration via top level annotaitons
+- Flexible arguments via Annotations likes @PathVariable, @RequestParam...
+- Increase popularity: more happier developers
+
+===== Web flux
+
+Empathy (Consistent use of annotations like previously) + Restraint by improving carefully by changing just the returns by using **Flux** and **Mono**
+
+====== Controllers with functions
+
+More flexible than annotations.
+
+=> Offering choices to implement web controllers.
+
+=== Anecdote Bubble sort usage
+
+Bubble sort: inefficient sorter
+
+used in Content Negotiation (Accept header): matching complexity between wanted one and all available.
+
+stable algorithm, order keep
+
+**Humility** from Spring core developer because they have used a simple solution and not a complexe one.
+
+==== HTTP Clients
+
+===== Rest Template
+
+15 years ago rest template introduction.
+
+**Empathy** : HTTP interactions in single line And consistency with JdbcTemplate, JmsTemplate ...
+
+Downside: lots of so many overloaded methods. Hard to find the expected method to do rest calls.
+
+Stop developing new functionality from Spring team.
+
+===== Rest Client
+
+Simplification by producing a fluent api by replacing a big list of methods, in chaining smaller focus steps (method, next uri, next method, next body ...)
+
+=> **Empathy** Fluent, focussed API
+=> **Humility** RestTemplate was a dead end
+=> **Restraint** Reduce overloaded methods
+
+=== Anecdote Five Years to Fix a Mistake
+
+- HttpMethod enum introduced in Spring 3
+ - RESTful, client-side usage
+- Expanded in Spring 5 WebFlux
+ - Bug WebDAV methods (not in enum) caused exception
+ - String value workaround (getMethod and getMethodValue)
+
+=> **Empathy** Ugly unremovable workaround dealing with **request.getMethod()** returning an HttpMethod enum and if null a String using **request.getMethodValue()**
+=> **Restraint** Introducing new HttpMethodValue class ?
+
+Fixing by
+
+=> **Restraint** Spring 6 required recompilation (Jave EE namespace to Jakarta EE namespace)
+=> **Restraint** Opportunity to fix HttpMethod
+=> **Restraint** Change **enum** to **class**
+
+=> **Empathy** Most behavior was maintained
+
+==== Closing thoughts: Same Three Qualities
+
+**Empathy** Show sympathy
+
+Communication using issue trackers. People can be angry at you. Because they can have wasted three days to fix, find an issue. Can be very aggressive between the Spring team developer and the external developer during the exchange. The clue: wait a day to respond. **Show empathy to people who can't get your stuff working**
+
+**Humility** Admit mistakes openly
+Spring Scala was a mistake. Should not have done that. Be very open on that.
+
+**Restraint** Do not overpromise. Only announce thinks when you're done.
