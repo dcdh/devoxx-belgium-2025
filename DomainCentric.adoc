@@ -131,7 +131,16 @@ The feature consuming another feature must not
 - inject an adapter from the other slice likes a repository implementation (adapter)
 - call a method on another slice domain
 
-To sum up:
+== To sum up:
+
+A slice is a self-contained business capability, owning its domain model, its persistence, and its interaction points, and communicating with other slices only through explicit contracts or events.
+
+A slice:
+- Can evolve independently
+- Has its own data
+- Expose a clear API
+- Can be tested in isolation
+- Could become a microservice
 
 - Asynchronous reaction : domain events (Event triggered by domain - framework less - likes a ThreadLocal managing a list of events from the domain)
 - Technical orchestration : Applicative events (Event javax framework)
