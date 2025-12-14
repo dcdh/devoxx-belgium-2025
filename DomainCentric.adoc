@@ -1,0 +1,134 @@
+= Domain Centric
+
+https://www.youtube.com/watch?v=co3acmgP2Ng&t=1476s
+
+https://odrotbohm.de/
+
+https://odrotbohm.de/2023/07/sliced-onion-architecture/
+
+https://odrotbohm.de/2025/11/jmolecules-2.0-stereotypical/
+
+== Cost
+
+Cost of Software = Cost of Change
+Cost of Change = Coupling
+
+Not all coupling is born equals (Adapter less coupling)
+
+Cohesion is coupling in the right places
+
+== Summary about system design
+
+Software design is the act of modeling **units of strong cohesion**,**loosely coupled** to each other.
+
+image::image-2025-12-14-22-57-42-561.png[]
+
+QUOTE: A software system's structure is essentially a formalized bet on change patterns you anticipate having to deal with the futures.
+
+QUOTE: A system is never the sum of its parts, it's the product of their interactions. Russel L. Ackoff
+
+image::image-2025-12-14-22-59-41-686.png[]
+
+== Separation of Concerns Architectures
+
+=== Hexagonal Architecture 2005 Alistair Cockburn
+Application core surrounded by adapters
+
+Fundamental ideas : adapters implement explicit designed ports
+
+image::image-2025-12-14-23-01-57-354.png[]
+
+=== Onion Architecture 2008
+pretty similar
+
+image::image-2025-12-14-23-02-57-932.png[]
+
+=== Spring application 2000 - 2006 : layer application
+
+image::image-2025-12-14-23-04-08-719.png[]
+
+image::image-2025-12-14-23-05-09-185.png[]
+
+Hexagonal / Onion architecture same than Layered Architecture except that interfaces are used and dependencies inverted
+
+== Goals and Effects
+
+early 2000 application server, EJB, servlet ...
+
+Testability was a problem
+
+Easier when using Spring du to dependency injection with interfaces. Used mocked interfaces to write unit test and others. Use Test application framework to bootstrap an application context on your machine.
+
+Technology-Free Domain
+
+use interface and specific implementation likes a repository using jdbc next replaced by mongo.
+
+image::image-2025-12-14-23-18-20-599.png[]
+
+image::image-2025-12-14-23-18-31-621.png[]
+
+=== Code structure
+
+image::image-2025-12-14-23-24-40-674.png[]
+
+image::image-2025-12-14-23-26-03-877.png[]
+
+image::image-2025-12-14-23-26-34-726.png[]
+
+image::image-2025-12-14-23-27-51-713.png[]
+in blue classes are public
+
+image::image-2025-12-14-23-28-34-922.png[]
+
+image::image-2025-12-14-23-28-44-067.png[]
+
+image::image-2025-12-14-23-29-01-742.png[]
+
+image::image-2025-12-14-23-29-12-850.png[]
+
+QUOTE: The primary objective of system decomposition is to support change. To contain the effects of a change to as few as possible elements. If your decomposition strategy does not align with that, it's distracting at best and harmful at worst.
+
+== Strategic consideration
+
+Functional Decomposition over Technical Decomposition
+Intrinsic Complexity determines Accidental Complexity
+Encapsulation over Organisation
+
+image::image-2025-12-14-23-33-41-496.png[]
+
+
+https://www.youtube.com/watch?v=7ZXW_oWdTk4
+
+Cons: hexagonal / onion architecture
+1. Feature spread across code base
+2. High coupling between features
+3. Unnecessary complexity
+
+
+1. Maximizes cohesion between a slice (Regroup all code related to a feature in a slice)
+2. Minimize coupling between slices
+3. Avoids unnecessary abstraction
+
+
+== Communication between slices
+
+1. Event likes jakarta one
+a slice send an event another one listen to it - solution preferable - fire and forget
+
+2. Need to have a synchronous response
+Expose an interface (a facade one)
+The consumer inject the interface (aka facade)
+Methods return projection / DTO but never the domain or an entity.
+This is synchronous reading.
+
+The feature consuming another feature must not
+- inject an interface from the other slice likes a repository interface (high coupling)
+- inject an adapter from the other slice likes a repository implementation (adapter)
+- call a method on another slice domain
+
+To sum up:
+
+Asynchronous reaction : domain events (Event triggered by domain - framework less - likes a ThreadLocal managing a list of events from the domain)
+Technical orchestration : Applicative events (Event javax framewokr)
+Synchronous reading: applicative facade
+Logical sharing: NEVER
