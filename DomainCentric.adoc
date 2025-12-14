@@ -109,6 +109,11 @@ Cons: hexagonal / onion architecture
 2. Minimize coupling between slices
 3. Avoids unnecessary abstraction
 
+Adapters inbound and outbound are inside the slice.
+
+Inbound adapters likes rest endpoint do not implement interfaces because they are the entrypoint.
+
+Outbound adapters likes database implements an interface (abstraction) from the domain.
 
 == Communication between slices
 
@@ -128,7 +133,11 @@ The feature consuming another feature must not
 
 To sum up:
 
-Asynchronous reaction : domain events (Event triggered by domain - framework less - likes a ThreadLocal managing a list of events from the domain)
-Technical orchestration : Applicative events (Event javax framewokr)
-Synchronous reading: applicative facade
-Logical sharing: NEVER
+- Asynchronous reaction : domain events (Event triggered by domain - framework less - likes a ThreadLocal managing a list of events from the domain)
+- Technical orchestration : Applicative events (Event javax framework)
+- Synchronous reading: applicative facade
+- Logical sharing: NEVER
+
+Application using Asynchronous events can be split into microservices communicating with kafka for example
+
+Use jMolecules (https://github.com/xmolecules/jmolecules) to document, validate implementation structure. Can use ArchUnit rules to enforce slice architecture is well respected.
