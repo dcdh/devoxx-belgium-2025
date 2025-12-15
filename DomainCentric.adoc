@@ -144,9 +144,31 @@ A slice:
 
 - Asynchronous reaction : domain events (Event triggered by domain - framework less - likes a ThreadLocal managing a list of events from the domain)
 - Technical orchestration : Applicative events (Event javax framework)
-- Synchronous reading: applicative facade
+- Synchronous reading: applicative facade - reading only ! no write !
 - Logical sharing: NEVER
 
-Application using Asynchronous events can be split into microservices communicating with kafka for example
+Application using Asynchronous events can be split into microservices communicating with kafka for example. Regarding facade - synchronous - it can be replaced by a rest api and rest client.
+
+Event should be used to propage a state using eventual consistency.
+
+
+----
+order
+├── domain
+│   ├── Order
+│   ├── OrderId
+│   └── OrderRepository
+├── application
+│   ├── PlaceOrder
+│   └── CancelOrder
+└── adapters
+    ├── inbound
+    │   └── OrderResource
+    └── outbound
+        └── OrderJpaRepository
+biling ...
+customer ...
+----
+
 
 Use jMolecules (https://github.com/xmolecules/jmolecules) to document, validate implementation structure. Can use ArchUnit rules to enforce slice architecture is well respected.
